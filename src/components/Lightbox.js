@@ -19,7 +19,10 @@ class Lightbox extends Component {
 
   handleClick = (e, index) => {
     e.preventDefault()
-    this.setState({ showLightbox: !this.state.showLightbox, selectedImage: index })
+    this.setState({
+      showLightbox: !this.state.showLightbox,
+      selectedImage: index,
+    })
   }
 
   closeModal = () => {
@@ -65,15 +68,24 @@ class Lightbox extends Component {
         <Gallery>
           {images.map((img, i) => (
             <GalleryItem key={img.node.sizes.src}>
-              <a href={img.node.sizes.src} alt="Car Image" onClick={e => this.handleClick(e, i)}>
+              <a
+                href={img.node.sizes.src}
+                alt="Car Image"
+                onClick={e => this.handleClick(e, i)}
+              >
+                {/* TODO: here display image with accurate resolution */}
                 <StyledImg sizes={img.node.sizes} />
               </a>
             </GalleryItem>
           ))}
         </Gallery>
 
-        <LightboxModal visible={showLightbox} onKeyUp={e => this.handleKeyDown(e)}>
+        <LightboxModal
+          visible={showLightbox}
+          onKeyUp={e => this.handleKeyDown(e)}
+        >
           <LightboxContent>
+            {/* TODO: here display full size image */}
             <Img sizes={images[selectedImage].node.sizes} />
             <Controls>
               <Button onClick={this.closeModal}>Close</Button>
@@ -81,7 +93,10 @@ class Lightbox extends Component {
                 <Button onClick={this.goBack} disabled={selectedImage === 0}>
                   Previous
                 </Button>
-                <Button onClick={this.goForward} disabled={selectedImage === images.length - 1}>
+                <Button
+                  onClick={this.goForward}
+                  disabled={selectedImage === images.length - 1}
+                >
                   Next
                 </Button>
               </LeftRight>
