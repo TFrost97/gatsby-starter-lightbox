@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import Layout from '../components/layout'
 import Lightbox from '../components/Lightbox'
 
-const IndexPage = ({ data }) => <Lightbox images={data.allImageSharp.edges} />
+const IndexPage = ({ data }) => {
+   
+  return(<Lightbox images={data.allFile.edges} />)}
 
 IndexPage.propTypes = {
   data: PropTypes.object.isRequired,
@@ -14,16 +16,19 @@ export default IndexPage
 
 export const pageQuery = graphql`
   query IndexQuery {
-    site {
-      siteMetadata {
-        title
-      }
-    }
-    allImageSharp {
+    allFile {
       edges {
         node {
-          sizes(maxWidth: 1800) {
-            ...GatsbyImageSharpSizes
+          id
+          relativePath
+          childImageSharp {
+            id
+            fluid(maxWidth: 1800, srcSetBreakpoints: [320, 480, 640, 800, 960, 1080, 1120, 1280, 1440, 1600, 1920]
+    ) {
+      ...GatsbyImageSharpFluid_withWebp
+
+    
+            }
           }
         }
       }
