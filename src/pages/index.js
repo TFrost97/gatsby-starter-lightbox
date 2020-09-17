@@ -10,10 +10,10 @@ import Img from 'gatsby-image'
 const IndexPage = ({ data }) => {
 
 return (
-<Lightbox length={data.allFile.edges.length} 
-  renderImages={(handleClick => (        
+<Lightbox data={data.allFile.edges} 
+  renderImages={((handleClick, data) => (
     <Gallery>
-      {data.allFile.edges.map((img, i) => (
+      {data.map((img, i) => (
         <GalleryItem onClick={e => handleClick(e, i)} key={i} >
             {/* TODO: here display image with accurate resolution */}
             <Img fluid={img.node.childImageSharp.fluid} />

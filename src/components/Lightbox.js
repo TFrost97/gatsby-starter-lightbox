@@ -49,7 +49,7 @@ class Lightbox extends Component {
       }
       if (keyCode === 39) {
         // Right Arrow Key
-        if (this.state.selectedImage < this.props.length - 1) {
+        if (this.state.selectedImage < this.props.data.length - 1) {
           this.setState({ selectedImage: this.state.selectedImage + 1 })
         }
       }
@@ -61,12 +61,12 @@ class Lightbox extends Component {
   }
 
   render() {
-    const { length } = this.props
+    const { data } = this.props
     const { showLightbox, selectedImage } = this.state
     return (
       <Fragment>
 
-        {this.props.renderImages(this.handleClick)}
+        {this.props.renderImages(this.handleClick, data)}
         {console.log(this.props, "propsy")}
 
 
@@ -87,7 +87,7 @@ class Lightbox extends Component {
                 </Button>
                 <Button
                   onClick={this.goForward}
-                  disabled={selectedImage === length - 1}
+                  disabled={selectedImage === data.length - 1}
                 >
                   {">"}
                 </Button>
@@ -151,7 +151,9 @@ const LeftRight = styled.div`
 `
 
 Lightbox.propTypes = {
-  images: PropTypes.array.isRequired,
+  renderImages: PropTypes.isRequired,
+  renderModalImages: PropTypes.isRequired,
+  data: PropTypes.isRequired
 }
 
 export default Lightbox
