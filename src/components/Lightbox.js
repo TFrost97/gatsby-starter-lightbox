@@ -49,7 +49,7 @@ class Lightbox extends Component {
       }
       if (keyCode === 39) {
         // Right Arrow Key
-        if (this.state.selectedImage < this.props.images.length - 1) {
+        if (this.state.selectedImage < this.props.length - 1) {
           this.setState({ selectedImage: this.state.selectedImage + 1 })
         }
       }
@@ -61,23 +61,14 @@ class Lightbox extends Component {
   }
 
   render() {
-    const { images } = this.props
+    const { length } = this.props
     const { showLightbox, selectedImage } = this.state
     return (
       <Fragment>
-        <Gallery>
-          {images.map((img, i) => (
-            <GalleryItem key={i}>
-              <a
-                onClick={e => this.handleClick(e, i)}
-              >
-                {/* TODO: here display image with accurate resolution */}
-                <StyledImg                 onClick={e => this.handleClick(e, i)}
-                fluid={img.node.childImageSharp.fluid} />
-              </a>
-            </GalleryItem>
-          ))}
-        </Gallery>
+
+        {this.props.renderImages(this.handleClick)}
+        {console.log(this.props, "propsy")}
+
 
         <LightboxModal
           visible={showLightbox}
@@ -85,18 +76,20 @@ class Lightbox extends Component {
         >
           <LightboxContent>
             {/* TODO: here display full size image */}
-            <Img fluid={images[selectedImage].node.childImageSharp.fluid} />
+            {console.log(selectedImage, "selected")}
+            {/* <Img fluid={images[selectedImage].node.childImageSharp.fluid} /> */}
+            {this.props.renderModalImages(selectedImage)}
             <Controls>
-              <Button onClick={this.closeModal}>Close</Button>
+              <Button onClick={this.closeModal}>x</Button>
               <LeftRight>
                 <Button onClick={this.goBack} disabled={selectedImage === 0}>
-                  Previous
+                  {"<"}
                 </Button>
                 <Button
                   onClick={this.goForward}
-                  disabled={selectedImage === images.length - 1}
+                  disabled={selectedImage === length - 1}
                 >
-                  Next
+                  {">"}
                 </Button>
               </LeftRight>
             </Controls>
@@ -120,29 +113,10 @@ const StyledImg = styled(Img)`
   }
 `
 
-const Gallery = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  @media (min-width: 700px) {
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (min-width: 900px) {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
 
-  @media (min-width: 1100px) {
-    grid-template-columns: repeat(5, 1fr);
-  }
 
-  grid-gap: 15px;
-  .gatsby-image-outer-wrapper {
-    height: 100%;
-  }
-`
 
-const GalleryItem = styled.div`
-  position: relative;
-`
+
 
 const Button = styled.button``
 
